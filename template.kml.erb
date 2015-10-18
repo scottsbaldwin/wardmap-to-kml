@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Walnut Creek Ward Membership</name>
+	<Schema name="Walnut_Creek_Ward" id="S_Walnut_Creek_Ward_DDSSSSISSS">
+		<SimpleField type="double" name="Longitude"><displayName>&lt;b&gt;Longitude&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="double" name="Latitude"><displayName>&lt;b&gt;Latitude&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="Household"><displayName>&lt;b&gt;Household&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="Street"><displayName>&lt;b&gt;Street&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="City"><displayName>&lt;b&gt;City&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="State"><displayName>&lt;b&gt;State&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="int" name="Zip"><displayName>&lt;b&gt;Zip&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="Phone"><displayName>&lt;b&gt;Phone&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="E_mail"><displayName>&lt;b&gt;E-mail&lt;/b&gt;</displayName></SimpleField>
+		<SimpleField type="string" name="Location_Status"><displayName>&lt;b&gt;Location Status&lt;/b&gt;</displayName></SimpleField>
+	</Schema>
+	<StyleMap id="pointStyleMap">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#normPointStyle</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#hlightPointStyle</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="normPointStyle">
+		<IconStyle>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+		<BalloonStyle>
+			<text><![CDATA[<table border="0">
+  <tr><td><b>Longitude</b></td><td>$[Walnut_Creek_Ward/Longitude]</td></tr>
+  <tr><td><b>Latitude</b></td><td>$[Walnut_Creek_Ward/Latitude]</td></tr>
+  <tr><td><b>Household</b></td><td>$[Walnut_Creek_Ward/Household]</td></tr>
+  <tr><td><b>Street</b></td><td>$[Walnut_Creek_Ward/Street]</td></tr>
+  <tr><td><b>City</b></td><td>$[Walnut_Creek_Ward/City]</td></tr>
+  <tr><td><b>State</b></td><td>$[Walnut_Creek_Ward/State]</td></tr>
+  <tr><td><b>Zip</b></td><td>$[Walnut_Creek_Ward/Zip]</td></tr>
+  <tr><td><b>Phone</b></td><td>$[Walnut_Creek_Ward/Phone]</td></tr>
+  <tr><td><b>E-mail</b></td><td>$[Walnut_Creek_Ward/E_mail]</td></tr>
+  <tr><td><b>Location Status</b></td><td>$[Walnut_Creek_Ward/Location_Status]</td></tr>
+</table>
+]]></text>
+		</BalloonStyle>
+	</Style>
+	<Style id="hlightPointStyle">
+		<IconStyle>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+		<BalloonStyle>
+			<text><![CDATA[<table border="0">
+  <tr><td><b>Longitude</b></td><td>$[Walnut_Creek_Ward/Longitude]</td></tr>
+  <tr><td><b>Latitude</b></td><td>$[Walnut_Creek_Ward/Latitude]</td></tr>
+  <tr><td><b>Household</b></td><td>$[Walnut_Creek_Ward/Household]</td></tr>
+  <tr><td><b>Street</b></td><td>$[Walnut_Creek_Ward/Street]</td></tr>
+  <tr><td><b>City</b></td><td>$[Walnut_Creek_Ward/City]</td></tr>
+  <tr><td><b>State</b></td><td>$[Walnut_Creek_Ward/State]</td></tr>
+  <tr><td><b>Zip</b></td><td>$[Walnut_Creek_Ward/Zip]</td></tr>
+  <tr><td><b>Phone</b></td><td>$[Walnut_Creek_Ward/Phone]</td></tr>
+  <tr><td><b>E-mail</b></td><td>$[Walnut_Creek_Ward/E_mail]</td></tr>
+  <tr><td><b>Location Status</b></td><td>$[Walnut_Creek_Ward/Location_Status]</td></tr>
+</table>
+]]></text>
+		</BalloonStyle>
+	</Style>
+        <% folders.each do |folder| %>
+	<Folder id="layer 0">
+          <name><%= folder[:name] %></name>
+          <open>0</open>
+                <% folder[:items].keys.sort.each do |key| %>
+                  <Folder id="folder <%= key %>">
+                    <name><%= key %> (<%= folder[:items][key].length %>)</name>
+                    <open>0</open>
+                    <% folder[:items][key].each do |m| %>
+                      <Placemark>
+                        <name><%= m[2].encode(xml: :text) %></name>
+			<styleUrl>#pointStyleMap</styleUrl>
+			<Style id="inline">
+				<IconStyle>
+					<color>ffececec</color>
+					<colorMode>normal</colorMode>
+					<Icon>
+						<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+					</Icon>
+				</IconStyle>
+				<LineStyle>
+					<color>ffececec</color>
+					<colorMode>normal</colorMode>
+				</LineStyle>
+				<PolyStyle>
+					<color>ffececec</color>
+					<colorMode>normal</colorMode>
+				</PolyStyle>
+			</Style>
+			<ExtendedData>
+                          <SchemaData schemaUrl="#S_Walnut_Creek_Ward_DDSSSSISSS">
+                            <SimpleData name="Longitude"><%= m[0] unless m[0].to_f == 0.0 %></SimpleData>
+                            <SimpleData name="Latitude"><%= m[1] unless m[1].to_f == 0.0 %></SimpleData>
+                            <SimpleData name="Household"><%= m[2].encode(xml: :text) %></SimpleData>
+                            <SimpleData name="Street"><%= m[3].encode(xml: :text) if m[3] %></SimpleData>
+                            <SimpleData name="City"><%= m[4].encode(xml: :text) if m[4] %></SimpleData>
+                            <SimpleData name="State"><%= m[5].encode(xml: :text) if m[5] %></SimpleData>
+                            <SimpleData name="Zip"><%= m[6].encode(xml: :text) if m[6] %></SimpleData>
+                            <SimpleData name="Phone"><%= m[7].encode(xml: :text) if m[7] %></SimpleData>
+                            <SimpleData name="E_mail"><%= m[8].encode(xml: :text) if m[8] %></SimpleData>
+                            <SimpleData name="Location_Status"><%= m[9].encode(xml: :text) if m[9] %></SimpleData>
+                          </SchemaData>
+			</ExtendedData>
+			<Point>
+                          <coordinates><%= m[0].to_f || 0 %>,<%= m[1].to_f || 0 %>,0</coordinates>
+			</Point>
+                      </Placemark>
+                    <% end %>
+                  </Folder>
+                <% end %>
+	</Folder>
+        <% end %>
+</Document>
+</kml>

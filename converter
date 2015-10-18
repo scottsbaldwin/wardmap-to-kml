@@ -1,0 +1,59 @@
+#!/usr/bin/ruby
+
+require 'optparse'
+require 'csv'
+require 'pp'
+require 'erb'
+
+options = {}
+opt_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} [options]"
+  opts.on('-f', '--file FILE', 'CSV file to convert') { |v| options[:file] = v }
+  opts.on('-h', '--help', 'Usage instructions') do
+    puts opts
+    exit
+  end
+end
+
+opt_parser.parse!(ARGV)
+unless options[:file]
+  puts opt_parser.help
+  exit
+end
+
+path = options[:file]
+lines = CSV.read(path)
+lines.shift
+lines.pop
+
+# ["Longitude", "Latitude", "Household", "Street",
+#  "City", "State", "Zip", "Phone", "E-mail",
+#  "Location Status"]
+
+by_zip = {}
+by_status = {}
+lines.each do |line|
+  re = /^(\d{5})/
+  zip = 'Unknown'
+  matches = re.match(line[6])
+  if matches
+    zip = matches[1]
+  end
+  by_zip[zip] = [] unless by_zip.include?(zip)
+  by_zip[zip] << line
+
+  by_status[line[9]] = [] unless by_status.include?(line[9])
+  by_status[line[9]] << line
+end
+
+# pp by_zip.keys.sort.map { |k| [k, by_zip[k].length] }
+# pp by_status.keys.sort.map { |k| [k, by_status[k].length] }
+
+folders = [
+  { items: by_zip, name: "Membership by Zip Code" },
+  { items: by_status, name: "Membership by Location Status" }
+]
+
+kml = File.read('./template.kml.erb')
+contents = ERB.new(kml).result(binding)
+puts contents
