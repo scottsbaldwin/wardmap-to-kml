@@ -76,11 +76,13 @@
                   <Folder id="folder <%= key %>">
                     <name><%= key %> (<%= folder[:items][key].length %>)</name>
                     <open>0</open>
+		    <visibility>0</visibility>
                     <% folder[:items][key].each do |m| %>
                       <Placemark>
                         <name><%= m[2].encode(xml: :text) %></name>
+			<visibility>0</visibility>
 			<styleUrl>#pointStyleMap</styleUrl>
-			<Style id="inline">
+			<Style>
 				<IconStyle>
 					<color>ffececec</color>
 					<colorMode>normal</colorMode>

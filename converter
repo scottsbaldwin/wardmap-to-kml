@@ -29,6 +29,21 @@ lines.pop
 # ["Longitude", "Latitude", "Household", "Street",
 #  "City", "State", "Zip", "Phone", "E-mail",
 #  "Location Status"]
+#
+zones = [
+  { id: :hancock, zips: [78722, 78702], name: "Hancock" },
+  { id: :manor, zips: [78653], name: "Manor" },
+  { id: :elgin, zips: [78621, 78659], name: "Elgin" },
+  { id: :hyde_park, zips: [78705], name: "Hyde Park" },
+  { id: :mueller, zips: [78723], name: "Mueller" },
+  { id: :johnny_morris, zips: [78724], name: "Johnny Morris" },
+  { id: :austins_colony, zips: [78725], name: "Austins Colony" },
+  { id: :rosedale, zips: [78751], name: "Rosedale" },
+  { id: :highland, zips: [78752], name: "Highland" },
+  { id: :north_lamar, zips: [78753], name: "North Lamar" },
+  { id: :pioneer_crossing, zips: [78754], name: "Pioneer Crossing" },
+  { id: :metric, zips: [78758], name: "Metric" }
+]
 
 by_zip = {}
 by_status = {}
@@ -46,12 +61,33 @@ lines.each do |line|
   by_status[line[9]] << line
 end
 
-# pp by_zip.keys.sort.map { |k| [k, by_zip[k].length] }
-# pp by_status.keys.sort.map { |k| [k, by_status[k].length] }
+# Collect the zones by zip code
+by_zone = {}
+zones.sort_by { |v| v[:name] }.each do |zone|
+  by_zone[zone[:name]] = [] unless by_zone.include?(zone[:name])
+  zips = by_zip.keys.map(&:to_i) & zone[:zips]
+  if zips.length > 0
+    zips.each do |z|
+      by_zone[zone[:name]].concat(by_zip[z.to_s])
+    end
+    by_zone[zone[:name]].sort_by! { |m| m[2] }
+  end
+end
+
+# Group the members not in the ward
+not_in_ward = {}
+zips_not_in_ward = by_zip.keys.map(&:to_i) - zones.map { |z| z[:zips] }.flatten
+
+zips_not_in_ward.each do |z|
+  zip = z.to_s
+  not_in_ward[zip] = by_zip[zip] if by_zip.include?(zip)
+end
 
 folders = [
-  { items: by_zip, name: "Membership by Zip Code" },
-  { items: by_status, name: "Membership by Location Status" }
+  { items: by_zone, name: "Membership by Zone" },
+  { items: not_in_ward, name: "Out of Ward" },
+#  { items: by_zip, name: "Membership by Zip Code" },
+#  { items: by_status, name: "Membership by Location Status" }
 ]
 
 kml = File.read('./template.kml.erb')
