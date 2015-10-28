@@ -84,12 +84,23 @@ zips_not_in_ward.each do |z|
 end
 
 folders = [
-  { items: by_zone, name: "Membership by Zone" },
+  { items: by_zone, name: "Zones" },
   { items: not_in_ward, name: "Out of Ward" },
-#  { items: by_zip, name: "Membership by Zip Code" },
-#  { items: by_status, name: "Membership by Location Status" }
+  { items: by_zip, name: "Member by Zip" },
+  { items: by_status, name: "Members by Status" }
 ]
 
-kml = File.read('./template.kml.erb')
-contents = ERB.new(kml).result(binding)
-puts contents
+template = File.read('./template.kml.erb')
+contents = ERB.new(template).result(binding)
+
+base_file = "wardmap"
+kml_file = "#{base_file}.kml"
+kmz_file = "#{base_file}.kmz"
+
+File.open(kml_file, 'w') do |file|
+  file.write(contents)
+end
+
+%x{/usr/bin/zip #{kmz_file} #{kml_file}}
+
+File.unlink(kml_file)
