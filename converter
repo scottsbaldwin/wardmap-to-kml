@@ -31,16 +31,13 @@ lines.pop
 #  "Location Status"]
 #
 zones = [
-  { id: :hancock, zips: [78722, 78702], name: "Hancock" },
   { id: :manor, zips: [78653], name: "Manor" },
   { id: :elgin, zips: [78621, 78659], name: "Elgin" },
-  { id: :hyde_park, zips: [78705], name: "Hyde Park" },
-  { id: :mueller, zips: [78723], name: "Mueller" },
-  { id: :johnny_morris, zips: [78724], name: "Johnny Morris" },
-  { id: :austins_colony, zips: [78725], name: "Austins Colony" },
-  { id: :rosedale, zips: [78751], name: "Rosedale" },
+  { id: :mueller, zips: [78702, 78722, 78723], name: "Mueller" },
+  { id: :johnny_morris, zips: [78724, 78725], name: "Johnny Morris" },
+  { id: :rosedale, zips: [78705, 78751], name: "Rosedale" },
   { id: :highland, zips: [78752], name: "Highland" },
-  { id: :north_lamar, zips: [78753], name: "North Lamar" },
+  { id: :copperfield, zips: [78753], name: "Copperfield" },
   { id: :pioneer_crossing, zips: [78754], name: "Pioneer Crossing" },
   { id: :metric, zips: [78758], name: "Metric" }
 ]
